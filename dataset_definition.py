@@ -20,21 +20,21 @@ dataset.configure_dummy_data(population_size=100)
 
 # codelists
 
-ethnicity_codelist = codelist_from_csv(
-    "codelists/opensafely-ethnicity-snomed-0removed.csv",
+"""ethnicity_codelist = codelist_from_csv(
+    "codelists/opensafely-ethnicity.csv",
     column="code",
     category_column="Grouping_6",
-)
+)"""
 
 asthma_inhaler_codelist = codelist_from_csv(
     "codelists/opensafely-asthma-inhaler-salbutamol-medication.csv",
     column="code",
 )
 
-asthma_exacerbations_codelist = codelist_from_csv(
+"""asthma_exacerbations_codelist = codelist_from_csv(
     "codelists/bristol-asthma-exacerbations.csv",
     column="code",
-)
+)"""
 
 # population variables - returns true/false boolean
 
@@ -73,7 +73,7 @@ dataset.age_band = case(
     when((age >= 85)).then("age_85_plus"),
 )
 
-dataset.ethnicity = (
+"""dataset.ethnicity = (
     clinical_events.where(
         clinical_events.snomedct_code.is_in(
             ethnicity_codelist
@@ -82,7 +82,7 @@ dataset.ethnicity = (
     .sort_by(clinical_events.date)
     .last_for_patient()
     .snomedct_code.to_category(ethnicity_codelist)
-)
+)"""
 
 # exposure variables
 
@@ -95,7 +95,7 @@ dataset.num_asthma_inhaler_medications = medications.where(
 
 # outcome variables
 
-dataset.date_of_first_asthma_exacerbation = (
+"""dataset.date_of_first_asthma_exacerbation = (
     clinical_events.where(
         clinical_events.snomedct_code.is_in(
             asthma_exacerbations_codelist
@@ -105,4 +105,4 @@ dataset.date_of_first_asthma_exacerbation = (
     .sort_by(clinical_events.date)
     .first_for_patient()
     .date
-)
+)"""
